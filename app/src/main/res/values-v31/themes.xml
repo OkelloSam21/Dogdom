@@ -6,4 +6,5 @@
         <item name="postSplashScreenTheme">@style/Theme.Dogdom</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/animated_logo</item>
     </style>
+
 </resources>
