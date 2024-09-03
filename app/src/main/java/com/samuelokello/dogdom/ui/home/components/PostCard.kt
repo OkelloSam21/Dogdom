@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -23,20 +24,28 @@ import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.data.DataSource
 import com.samuelokello.dogdom.model.Feature
 import com.samuelokello.dogdom.model.Post
+import com.samuelokello.dogdom.ui.home.HomeAction
 import com.samuelokello.dogdom.ui.shared.components.DogDomButton
 import com.samuelokello.dogdom.ui.theme.CustomOrange
 
 
 @Composable
-fun PostCard(post: Post, modifier: Modifier = Modifier) {
+fun PostCard(
+    modifier: Modifier = Modifier,
+    post: Post,
+    event: (HomeAction) -> Unit,
+    selectTab: Boolean = true,
+    ) {
     Column {
         Row(
             modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(vertical = 16.dp)
         ) {
-            ConstraintLayout {
-                val (image, text) = createRefs()
+            ConstraintLayout(
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
+                val (image, text, location) = createRefs()
                 Image(
                     painter = painterResource(id = post.author.imageRes),
                     contentDescription = null,
@@ -48,14 +57,24 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
                         },
                     contentScale = ContentScale.Crop,
                 )
-                Text(
-                    text = post.author.name,
-                    Modifier
-                        .padding(top = 8.dp)
+                Column(
+                    modifier = Modifier
+                        .padding(top = 2.dp)
                         .constrainAs(text) {
                             start.linkTo(parent.end, margin = 8.dp)
                         }
-                )
+                ) {
+                    Text(
+                        text = post.author.name,
+                    )
+                    if (!selectTab) {
+                        Text(
+                            text = post.author.location ?: "Nairobi Kenya",
+                            style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray, fontWeight = FontWeight.Medium),
+                        )
+                    }
+                }
+
             }
             Spacer(modifier = Modifier.weight(1f))
             DogDomButton(
@@ -79,26 +98,28 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
                     ReactionButtons(
                         contentDescription = "Like",
                         text = "${post.likes}",
-                        onClick = { /*TODO*/ },
+                        onClick = { event(HomeAction.OnLikePressed(post.id)) },
                         icon = R.drawable.like,
                     )
                     ReactionButtons(
                         contentDescription = "Comment",
                         text = "${post.comments}",
-                        onClick = { /*TODO*/ },
+                        onClick = { event(HomeAction.OnCommentPressed) },
                         icon = R.drawable.comments,
                     )
                     ReactionButtons(
                         contentDescription = "Share",
                         text = "${post.shares}",
-                        onClick = { /*TODO*/ },
+                        onClick = { event(HomeAction.OnSharePressed) },
                         icon = R.drawable.share,
                     )
                 }
-                IconButton(onClick = {}) {
+                IconButton(
+                    onClick = {event(HomeAction.OnMorePressed)},
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.icon),
-                        contentDescription = "Bookmark",
+                        contentDescription = "More",
                         tint = CustomOrange
                     )
                 }
