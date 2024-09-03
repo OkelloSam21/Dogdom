@@ -98,12 +98,18 @@ object DataSource {
             id = 1,
             author = Author(
                 id = 1,
-                name = "Mirable Swift",
-                imageRes = R.drawable.mirable_profile
+                name = "Huntington",
+                location = "Golden Retriever Mobile",
+                imageRes = R.drawable.hutington
             ),
-            content = "This is a post about dogs",
+            content = "With golden retriever together of the day is always short, \n soon to the New Year, leave you in the city",
             images = listOf(
-                R.drawable.mirable_swift,
+                R.drawable.hutington_1,
+                R.drawable.hutington_2,
+                R.drawable.hutington_3,
+                R.drawable.hutington_4,
+                R.drawable.hutington_5,
+                R.drawable.hutington_6,
             ).shuffled(),
             likes = 100,
             comments = 10,
@@ -113,16 +119,13 @@ object DataSource {
             id = 2,
             author = Author(
                 id = 1,
-                name = "Samuel Okello",
+                name = "Quentin Raman",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = "Your dog is only a part of your world, but to your dog, \nyou are the world",
             images = listOf(
-                R.drawable.dog,
-                R.drawable.dog2,
-                R.drawable.dog3,
-                R.drawable.dog4
-            ).shuffled(),
+               R.drawable.hutington_2
+            ),
             likes = 100,
             comments = 10,
             shares = 5
@@ -140,19 +143,22 @@ object DataSource {
                 R.drawable.dog4,
                 R.drawable.dog5
             ).shuffled(),
-            likes = 100,
-            comments = 10,
-            shares = 5
+            likes = 1668,
+            comments = 658,
+            shares = 5233
         ),
         Post(
             id = 4,
             author = Author(
                 id = 1,
-                name = "Samuel Okello",
+                name = "Edgar",
                 imageRes = R.drawable.profile
             ),
             content = "This is a post about dogs",
             images = listOf(
+                R.drawable.dog4,
+                R.drawable.dog5,
+                R.drawable.dog,
                 R.drawable.dog4,
                 R.drawable.dog5,
                 R.drawable.dog
@@ -165,14 +171,13 @@ object DataSource {
             id = 5,
             author = Author(
                 id = 1,
-                name = "Samuel Okello",
+                name = "Alexandra",
+                location = "Labrador Peninsular Atlanta",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = "Take your dog out and play.",
             images = listOf(
-                R.drawable.dog5,
-                R.drawable.dog,
-                R.drawable.dog2
+                R.drawable.dog_out
             ).shuffled(),
             likes = 100,
             comments = 10,
