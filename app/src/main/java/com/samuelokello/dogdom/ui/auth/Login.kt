@@ -37,7 +37,10 @@ import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.ui.shared.components.CustomButton
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    onLoginClick: () -> Unit = {}
+) {
 
     var selectedCountryCode by rememberSaveable { mutableStateOf("+1") }
     var phoneNumber by rememberSaveable { mutableStateOf("") }
@@ -82,7 +85,7 @@ fun LoginScreen() {
                 Spacer(modifier = Modifier.height(16.dp))
                 CustomButton(
                     text = "Get Captcha",
-                    onClick = {},
+                    onClick = onLoginClick,
                     modifier = Modifier.fillMaxWidth()
                 )
 
