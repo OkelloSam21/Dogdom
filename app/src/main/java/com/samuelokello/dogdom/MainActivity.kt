@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.samuelokello.dogdom.data.DataSource
@@ -49,13 +51,17 @@ class MainActivity : ComponentActivity() {
             // A surface container using the 'background' color from the theme
             homeViewModel =
                 ViewModelProvider(this, HomeViewModelFactory(DataSource))[HomeViewModel::class.java]
-            DogdomTheme {
-                DogdomScreen(
-                    homeViewModel = homeViewModel,
-                    modifier = Modifier
-
-                )
+            Surface(
+                color = MaterialTheme.colorScheme.background
+            ) {
+                DogdomTheme {
+                    DogdomScreen(
+                        homeViewModel = homeViewModel,
+                        modifier = Modifier
+                    )
+                }
             }
+
         }
     }
 }
