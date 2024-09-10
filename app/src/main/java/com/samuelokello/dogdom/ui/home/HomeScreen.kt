@@ -1,10 +1,10 @@
 package com.samuelokello.dogdom.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,17 +19,14 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -38,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.data.DataSource
 import com.samuelokello.dogdom.model.Feature
@@ -48,104 +46,99 @@ import com.samuelokello.dogdom.ui.home.components.QuickActions
 import com.samuelokello.dogdom.ui.home.model.HomeIcon
 import com.samuelokello.dogdom.ui.theme.CustomOrange
 
+enum class HomeTab {
+    Select, Discover
+}
+
 @Composable
-fun HomeScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        HomeScreenContent()
-    }
+fun HomeScreen(viewModel: HomeViewModel = HomeViewModel(DataSource)) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    HomeScreenContent(
+        state = state,
+        onTabChanged = { viewModel.onAction(HomeAction.OnTabChanged(it)) }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenContent(viewModel: HomeViewModel = HomeViewModel(DataSource)) {
-    var tabIndex by rememberSaveable { mutableIntStateOf(0) }
-    val tabs = listOf("Select", "Discover")
-
-    val state by viewModel.state.collectAsState()
-
-
-    CenterAlignedTopAppBar(
-        title = {
-            TabRow(
-                selectedTabIndex = tabIndex,
-                modifier = Modifier
-                    .width(200.dp),
-                indicator = { tabPositions ->
-                    Box(
-                        modifier = Modifier
-                            .tabIndicatorOffset(tabPositions[tabIndex])
-                            .height(2.dp)
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp)
-                    ) {
-                        Canvas(
-                            modifier = Modifier.fillMaxSize()
+fun HomeScreenContent(
+    state: HomeUiState,
+    onTabChanged: (HomeTab) -> Unit
+) {
+    Column {
+        CenterAlignedTopAppBar(
+            title = {
+                TabRow(
+                    selectedTabIndex = state.currentTab.ordinal,
+                    modifier = Modifier.width(200.dp),
+                    indicator = { tabPositions ->
+                        Box(
+                            modifier = Modifier
+                                .tabIndicatorOffset(tabPositions[state.currentTab.ordinal])
+                                .height(2.dp)
+                                .fillMaxSize()
+                                .padding(horizontal = 16.dp)
                         ) {
-                            drawLine(
-                                color = CustomOrange,
-                                start = Offset(0f, 0f),
-                                end = Offset(size.width, 0f),
-                                strokeWidth = 2f,
-                            )
+                            Canvas(modifier = Modifier.fillMaxSize()) {
+                                drawLine(
+                                    color = CustomOrange,
+                                    start = Offset(0f, 0f),
+                                    end = Offset(size.width, 0f),
+                                    strokeWidth = 2f,
+                                )
+                            }
                         }
+                    },
+                    divider = {},
+                    containerColor = Color.Transparent,
+                ) {
+                    HomeTab.entries.forEach { tab ->
+                        Tab(
+                            selected = state.currentTab == tab,
+                            onClick = {
+                                Log.d("Home Screen", "Tab selected: ${tab.name}")
+                                onTabChanged(tab)
+                            },
+                            text = {
+                                Text(
+                                    text = tab.name,
+                                    color = if (state.currentTab == tab) Color.DarkGray else Color.LightGray.copy(
+                                        alpha = 0.6f
+                                    ),
+                                    fontWeight = if (state.currentTab == tab) FontWeight.Bold else FontWeight.Medium,
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontSize = 18.sp
+                                )
+                            }
+                        )
                     }
-                },
-                divider = {},
-                containerColor = Color.Transparent,
-            ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = tabIndex == index,
-                        onClick = { tabIndex = index },
-                        text = {
-                            Text(
-                                text = title,
-                                color = if (tabIndex == index) Color.DarkGray else Color.LightGray.copy(
-                                    alpha = 0.6f
-                                ),
-                                fontWeight = if (tabIndex == index) FontWeight.Bold else FontWeight.Medium,
-                                fontFamily = FontFamily.SansSerif,
-                                fontSize = 18.sp
-                            )
-                        }
+                }
+            },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background
+            ),
+            actions = {
+                IconButton(
+                    onClick = {},
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Icon(
+                        Icons.Outlined.Notifications,
+                        contentDescription = "Notifications"
                     )
                 }
+            },
+            modifier = Modifier
+        )
 
-            }
-        },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color.Transparent
-        ),
-        actions = {
-            IconButton(
-                onClick = {},
-                modifier = Modifier.padding(end = 16.dp)
-            ) {
-                Icon(
-                    Icons.Outlined.Notifications,
-                    contentDescription = "Notifications"
-                )
-            }
-        },
-        modifier = Modifier
-    )
-
-    when (tabIndex) {
-        0 -> SelectScreen(
-            posts = state.selectTabPosts,
-            feature = state.feature
+        when (state.currentTab) {
+            HomeTab.Select -> SelectScreen(
+                posts = state.selectTabPosts,
+                feature = state.feature
             )
-        1 -> DiscoverScreen(posts = state.discoverTabPosts)
+            HomeTab.Discover -> DiscoverScreen(posts = state.discoverTabPosts)
+        }
     }
-
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen()
 }
 
 @Composable
@@ -156,11 +149,10 @@ fun SelectScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 32.dp, horizontal = 16.dp)
+            .padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(48.dp))
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             state = rememberLazyListState(),
         ) {
             item {
@@ -184,9 +176,9 @@ fun SelectScreen(
                 }
             }
 
-            itemsIndexed(posts) { index,post ->
+            itemsIndexed(posts) { index, post ->
                 Column {
-                    PostCard(post = post)
+                    PostCard(post = post, event = {})
                     if (index == 2) {
                         FeatureSection(features = feature)
                     }
@@ -198,15 +190,16 @@ fun SelectScreen(
 }
 
 @Composable
-fun DiscoverScreen(posts: List<Post>) {
+fun DiscoverScreen(
+    posts: List<Post>,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 32.dp, horizontal = 16.dp)
+            .padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(48.dp))
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             state = rememberLazyListState(),
         ) {
             item {
@@ -233,11 +226,29 @@ fun DiscoverScreen(posts: List<Post>) {
 
             items(posts) { post ->
                 Column {
-                    PostCard(post = post)
+                    PostCard(
+                        post = post,
+                        event = {},
+                        selectTab = false
+                    )
                 }
             }
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DiscoverScreenPrev() {
+    DiscoverScreen(
+        posts = DataSource.discoverPosts
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomePrev() {
+    HomeScreen()
 }
 
