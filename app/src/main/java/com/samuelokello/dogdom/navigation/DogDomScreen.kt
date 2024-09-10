@@ -81,11 +81,11 @@ fun DogdomScreen(
                 }
                 composable(route = DogdomScreen.Home.name) {
                     HomeScreen(
-                        viewModel = homeViewModel,
-                        showBottomBar = !showBottomBar,
-                        modifier = modifier
-                            .safeDrawingPadding()
-                            .padding(innerPadding),
+//                        viewModel = homeViewModel,
+////                        showBottomBar = !showBottomBar,
+//                        modifier = modifier
+//                            .safeDrawingPadding()
+//                            .padding(innerPadding),
                     )
                 }
                 composable(route = DogdomScreen.Circle.name) {
