@@ -40,6 +40,8 @@ import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.data.DataSource
 import com.samuelokello.dogdom.model.Feature
 import com.samuelokello.dogdom.model.Post
+import com.samuelokello.dogdom.navigation.DogdomScreen
+import com.samuelokello.dogdom.navigation.bottom_navigation.BottomNavigationBar
 import com.samuelokello.dogdom.ui.home.components.FeatureSection
 import com.samuelokello.dogdom.ui.home.components.PostCard
 import com.samuelokello.dogdom.ui.home.components.QuickActions
@@ -51,19 +53,34 @@ enum class HomeTab {
 }
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = HomeViewModel(DataSource)) {
+fun HomeScreen(
+    modifier: Modifier,
+    viewModel: HomeViewModel = HomeViewModel(DataSource),
+    onPostClick: (postId: Int) -> Unit,
+    onBottomNavItemClick:(DogdomScreen) -> Unit,
+    showBottomNavigation: Boolean,
+    onTabChanged: (HomeTab) -> Unit
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    HomeScreenContent(
-        state = state,
-        onTabChanged = { viewModel.onAction(HomeAction.OnTabChanged(it)) }
-    )
+    BottomNavigationBar(
+        showBottomBar = showBottomNavigation,
+        onItemClick = onBottomNavItemClick
+    ){
+        HomeScreenContent(
+            state = state,
+            onTabChanged = onTabChanged,
+            onPostClick = onPostClick
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenContent(
     state: HomeUiState,
-    onTabChanged: (HomeTab) -> Unit
+    onTabChanged: (HomeTab) -> Unit,
+    onPostClick: (postId: Int) -> Unit
 ) {
     Column {
         CenterAlignedTopAppBar(
@@ -134,9 +151,16 @@ fun HomeScreenContent(
         when (state.currentTab) {
             HomeTab.Select -> SelectScreen(
                 posts = state.selectTabPosts,
-                feature = state.feature
+                feature = state.feature,
+                onPostClick = {
+                    onPostClick(it)
+                }
             )
-            HomeTab.Discover -> DiscoverScreen(posts = state.discoverTabPosts)
+
+            HomeTab.Discover -> DiscoverScreen(
+                posts = state.discoverTabPosts,
+                onPostClick = { onPostClick(it) }
+            )
         }
     }
 }
@@ -144,7 +168,8 @@ fun HomeScreenContent(
 @Composable
 fun SelectScreen(
     posts: List<Post>,
-    feature: List<Feature>
+    feature: List<Feature>,
+    onPostClick: (postId: Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -178,7 +203,12 @@ fun SelectScreen(
 
             itemsIndexed(posts) { index, post ->
                 Column {
-                    PostCard(post = post, event = {})
+                    PostCard(
+                        post = post,
+                        event = {},
+                        onPostClick = { onPostClick(post.id) },
+                        selectTab = true
+                    )
                     if (index == 2) {
                         FeatureSection(features = feature)
                     }
@@ -192,6 +222,7 @@ fun SelectScreen(
 @Composable
 fun DiscoverScreen(
     posts: List<Post>,
+    onPostClick: (postId: Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -229,7 +260,8 @@ fun DiscoverScreen(
                     PostCard(
                         post = post,
                         event = {},
-                        selectTab = false
+                        selectTab = false,
+                        onPostClick = { onPostClick(post.id) }
                     )
                 }
             }
@@ -242,13 +274,17 @@ fun DiscoverScreen(
 @Composable
 private fun DiscoverScreenPrev() {
     DiscoverScreen(
-        posts = DataSource.discoverPosts
+        posts = DataSource.discoverPosts,
+        onPostClick = {}
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun HomePrev() {
-    HomeScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun HomePrev() {
+//    HomeScreen(
+//        onPostClick = {},
+//        showBottomNavigation = true
+//    )
+//}
 
