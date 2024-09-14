@@ -61,4 +61,5 @@ dependencies {
 
     implementation(libs.androidx.core.splashscreen)
     implementation (libs.androidx.constraintlayout.compose)
+    implementation(kotlin("reflect"))
 }
