@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.samuelokello.dogdom.data.DataSource
 import com.samuelokello.dogdom.navigation.DogdomScreen
+import com.samuelokello.dogdom.ui.article.ArticleViewModel
 import com.samuelokello.dogdom.ui.home.HomeViewModel
 import com.samuelokello.dogdom.ui.home.HomeViewModelFactory
 import com.samuelokello.dogdom.ui.theme.DogdomTheme
@@ -17,46 +18,23 @@ import com.samuelokello.dogdom.ui.theme.DogdomTheme
 class MainActivity : ComponentActivity() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var articleViewModel: ArticleViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-//        installSplashScreen().apply {
-//            setOnExitAnimationListener { screen ->
-//                val zoomX = ObjectAnimator.ofFloat(
-//                    screen.iconView,
-//                    View.SCALE_X,
-//                    0f
-//                )
-//                zoomX.interpolator = OvershootInterpolator()
-//                zoomX.duration = 300L
-//                zoomX.doOnEnd { screen.remove() }
-//
-//
-//                val zoomY = ObjectAnimator.ofFloat(
-//                    screen.iconView,
-//                    View.SCALE_Y,
-//                    0f
-//                )
-//                zoomY.interpolator = OvershootInterpolator()
-//                zoomY.duration = 300L
-//                zoomY.doOnEnd { screen.remove() }
-//
-//                zoomX.start()
-//                zoomY.start()
-//
-//            }
-//        }
         setContent {
             // A surface container using the 'background' color from the theme
             homeViewModel =
                 ViewModelProvider(this, HomeViewModelFactory(DataSource))[HomeViewModel::class.java]
+            articleViewModel = ViewModelProvider(this)[ArticleViewModel::class.java]
             Surface(
                 color = MaterialTheme.colorScheme.background
             ) {
                 DogdomTheme {
                     DogdomScreen(
                         homeViewModel = homeViewModel,
+                        articleViewModel = articleViewModel,
                         modifier = Modifier
                     )
                 }
