@@ -200,4 +200,8 @@ object DataSource {
             title = "Feature 2"
         ),
     )
+
+    fun getPostById(postId: Int): Post {
+        return posts.find { it.id == postId } ?: Post()
+    }
 }
