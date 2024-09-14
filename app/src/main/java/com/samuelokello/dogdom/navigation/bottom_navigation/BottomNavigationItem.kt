@@ -12,11 +12,11 @@ data class BottomNavigationItem(
     // get list of the navigation items
     fun bottomNavigationItems() : List<BottomNavigationItem> {
         return listOf(
-            BottomNavigationItem("Home", R.drawable.home, DogdomScreen.Home.name), // home
-            BottomNavigationItem("Circle", R.drawable.circle, DogdomScreen.Circle.name), // Circle
-            BottomNavigationItem("Release", R.drawable.release, DogdomScreen.Release.name), // Release
-            BottomNavigationItem("Message", R.drawable.comments, DogdomScreen.Message.name), // Message
-            BottomNavigationItem("User", R.drawable.user, DogdomScreen.Profile.name), // User
+            BottomNavigationItem("Home", R.drawable.home, DogdomScreen.Home.route), // home
+            BottomNavigationItem("Circle", R.drawable.circle, DogdomScreen.Circle.route), // Circle
+            BottomNavigationItem("Release", R.drawable.release, DogdomScreen.Release.route), // Release
+            BottomNavigationItem("Message", R.drawable.comments, DogdomScreen.Message.route), // Message
+            BottomNavigationItem("User", R.drawable.user, DogdomScreen.Profile.route), // User
         )
     }
 }
