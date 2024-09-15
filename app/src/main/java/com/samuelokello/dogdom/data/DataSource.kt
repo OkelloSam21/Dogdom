@@ -2,24 +2,79 @@ package com.samuelokello.dogdom.data
 
 import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.model.Author
+import com.samuelokello.dogdom.model.Comment
 import com.samuelokello.dogdom.model.Feature
 import com.samuelokello.dogdom.model.Post
 
 object DataSource {
+    private val comments = listOf(
+        Comment(
+            author = Author(
+                id = 1,
+                name = "Samuel Okello",
+                imageRes = R.drawable.profile
+            ),
+            content = "This is a comment",
+            likes = 10,
+            timeStamp = 5
+        ),
+        Comment(
+            author = Author(
+                id = 1,
+                name = "Samuel Okello",
+                imageRes = R.drawable.profile
+            ),
+            content = "This is a comment",
+            likes = 10,
+            timeStamp = 5
+        ),
+        Comment(
+            author = Author(
+                id = 1,
+                name = "Samuel Okello",
+                imageRes = R.drawable.profile
+            ),
+            content = "This is a comment",
+            likes = 10,
+            timeStamp = 5
+        ),
+        Comment(
+            author = Author(
+                id = 1,
+                name = "Samuel Okello",
+                imageRes = R.drawable.profile
+            ),
+            content = "This is a comment",
+            likes = 10,
+            timeStamp = 5
+        ),
+        Comment(
+            author = Author(
+                id = 1,
+                name = "Samuel Okello",
+                imageRes = R.drawable.profile
+            ),
+            content = "This is a comment",
+            likes = 10,
+            timeStamp = 5
+        )
+    )
+
     var posts = listOf(
         Post(
             id = 1,
             author = Author(
                 id = 1,
                 name = "Mirable Swift",
-                imageRes = R.drawable.mirable_profile
+                imageRes = R.drawable.mirable_profile,
+                location = "Nairobi Kenya"
             ),
-            content = "This is a post about dogs",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.mirable_swift,
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         ),
         Post(
@@ -29,7 +84,7 @@ object DataSource {
                 name = "Samuel Okello",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.dog,
                 R.drawable.dog2,
@@ -37,7 +92,7 @@ object DataSource {
                 R.drawable.dog4
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         ),
         Post(
@@ -47,14 +102,14 @@ object DataSource {
                 name = "Samuel Okello",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.dog3,
                 R.drawable.dog4,
                 R.drawable.dog5
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         ),
         Post(
@@ -64,14 +119,14 @@ object DataSource {
                 name = "Samuel Okello",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.dog4,
                 R.drawable.dog5,
                 R.drawable.dog
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         ),
         Post(
@@ -81,14 +136,14 @@ object DataSource {
                 name = "Samuel Okello",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.dog5,
                 R.drawable.dog,
                 R.drawable.dog2
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         )
     )
@@ -102,7 +157,7 @@ object DataSource {
                 location = "Golden Retriever Mobile",
                 imageRes = R.drawable.hutington
             ),
-            content = "With golden retriever together of the day is always short, \n soon to the New Year, leave you in the city",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.hutington_1,
                 R.drawable.hutington_2,
@@ -112,7 +167,7 @@ object DataSource {
                 R.drawable.hutington_6,
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         ),
         Post(
@@ -122,12 +177,12 @@ object DataSource {
                 name = "Quentin Raman",
                 imageRes = R.drawable.profile
             ),
-            content = "Your dog is only a part of your world, but to your dog, \nyou are the world",
+            content =R.array.lorem_ipsum,
             images = listOf(
                R.drawable.hutington_2
             ),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         ),
         Post(
@@ -137,14 +192,14 @@ object DataSource {
                 name = "Samuel Okello",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.dog3,
                 R.drawable.dog4,
                 R.drawable.dog5
             ).shuffled(),
             likes = 1668,
-            comments = 658,
+            comments = comments,
             shares = 5233
         ),
         Post(
@@ -154,7 +209,7 @@ object DataSource {
                 name = "Edgar",
                 imageRes = R.drawable.profile
             ),
-            content = "This is a post about dogs",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.dog4,
                 R.drawable.dog5,
@@ -164,7 +219,7 @@ object DataSource {
                 R.drawable.dog
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         ),
         Post(
@@ -175,12 +230,12 @@ object DataSource {
                 location = "Labrador Peninsular Atlanta",
                 imageRes = R.drawable.profile
             ),
-            content = "Take your dog out and play.",
+            content = R.array.lorem_ipsum,
             images = listOf(
                 R.drawable.dog_out
             ).shuffled(),
             likes = 100,
-            comments = 10,
+            comments = comments,
             shares = 5
         )
     )
