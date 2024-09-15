@@ -1,4 +1,24 @@
 <resources>
     <string name="app_name">Dogdom</string>
     <string name="back_button">navigate back</string>
+    <string-array name="lorem_ipsum">
+        <item>This is a post about dogs lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </item>
+
+        <item>Lorem ipsum odor amet, consectetuer adipiscing elit. Bibendum tellus dolor sit curae nascetur pulvinar arcu senectus mauris. Donec vestibulum fermentum
+            hendrerit mi rutrum sagittis luctus mi. Sapien lobortis gravida vehicula nam hac velit. Iaculis vestibulum cursus natoque imperdiet inceptos fames mauris.
+            Libero congue pulvinar laoreet congue rhoncus; felis potenti gravida. Lobortis euismod tristique id in montes non. Suscipit purus tempor curabitur facilisi interdum.
+        </item>
+
+        <item>Habitasse sagittis elit ornare cubilia nisi. Nullam nostra elit litora montes nisi consectetur. Vivamus hendrerit nostra elementum pharetra magna nam tellus eu.
+            Habitasse habitasse nulla id ex commodo. Malesuada taciti magnis vehicula elit pretium pellentesque erat amet. Nisi efficitur potenti fringilla iaculis condimentum
+            curabitur habitasse? Mollis torquent maximus vestibulum lacinia etiam hac.
+        </item>
+
+        <item>Interdum ultricies condimentum montes sociosqu dignissim. Aliquet massa nulla vel viverra quis urna lectus. Libero phasellus luctus magnis a; proin placerat ex venenatis.
+            Ut fusce ipsum lacus et congue penatibus, euismod a aenean. Eget non turpis augue phasellus porttitor arcu habitasse. Habitasse convallis morbi velit tellus dis imperdiet maecenas?
+        </item>
+    </string-array>
+
 </resources>
