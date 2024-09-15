@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,6 +39,7 @@ import com.samuelokello.dogdom.model.Feature
 import com.samuelokello.dogdom.model.Post
 import com.samuelokello.dogdom.ui.home.HomeAction
 import com.samuelokello.dogdom.ui.shared.components.DogDomButton
+import com.samuelokello.dogdom.ui.shared.components.ImageGrid
 import com.samuelokello.dogdom.ui.theme.CustomOrange
 
 
@@ -51,6 +51,7 @@ fun PostCard(
     selectTab: Boolean = true,
     onPostClick: (postId: Int) -> Unit
     ) {
+    val context = LocalContext.current
     Column (
         modifier = Modifier.clickable (
             onClick = { onPostClick(post.id) }
@@ -64,7 +65,7 @@ fun PostCard(
             ConstraintLayout(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
-                val (image, text, location) = createRefs()
+                val (image, text) = createRefs()
                 Image(
                     painter = painterResource(id = post.author.imageRes),
                     contentDescription = null,
@@ -101,7 +102,8 @@ fun PostCard(
                 onClick = { /*TODO*/ },
             )
         }
-        Text(text = post.content, style = MaterialTheme.typography.bodySmall)
+        val text = context.resources.getStringArray(post.content)
+        Text(text = text.first() , style = MaterialTheme.typography.bodySmall)
         Spacer(modifier = Modifier.height(12.dp))
         ImageGrid(images = post.images)
         Spacer(modifier = Modifier.height(8.dp))
@@ -122,7 +124,7 @@ fun PostCard(
                     )
                     ReactionButtons(
                         contentDescription = "Comment",
-                        text = "${post.comments}",
+                        text = "${post.comments.size}",
                         onClick = { event(HomeAction.OnCommentPressed) },
                         icon = R.drawable.comments,
                     )
@@ -171,185 +173,6 @@ fun ReactionButtons(
         )
     }
 
-}
-
-@Composable
-fun ImageGrid(images: List<Int>, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .height(300.dp)
-            .clip(RoundedCornerShape(8.dp))
-    ) {
-        when (images.size) {
-            1 -> {
-                Image(
-                    painter = painterResource(id = images[0]),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1f),
-                    contentScale = ContentScale.Crop
-                )
-            }
-
-            2 -> {
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    images.forEach { image ->
-                        Image(
-                            painter = painterResource(id = image),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight(),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                }
-            }
-
-            3 -> {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                    ) {
-                        Image(
-                            painter = painterResource(id = images[0]),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        images.drop(1).forEach { image ->
-                            Image(
-                                painter = painterResource(id = image),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                    }
-                }
-            }
-
-            4 -> {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        images.take(2).forEach { image ->
-                            Image(
-                                painter = painterResource(id = image),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                    }
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        images.drop(2).forEach { image ->
-                            Image(
-                                painter = painterResource(id = image),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                    }
-                }
-            }
-            else -> {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        images.take(2).forEach { image ->
-                            Image(
-                                painter = painterResource(id = image),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                    }
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                            Image(
-                                painter = painterResource(id = images[2]),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                contentScale = ContentScale.Crop
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                            ) {
-                                Image(
-                                    painter = painterResource(id = images[3]),
-                                    contentDescription = null,
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentScale = ContentScale.Crop
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(Color.Black.copy(alpha = 0.5f)),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "+${images.size - 3}",
-                                        color = Color.White,
-                                    )
-                                }
-                            }
-                    }
-                }
-            }
-        }
-    }
 }
 
 @Composable
