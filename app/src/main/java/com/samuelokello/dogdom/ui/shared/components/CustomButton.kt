@@ -24,7 +24,7 @@ fun CustomButton(
         modifier = modifier
             .fillMaxWidth()
             .height(58.dp),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(8.dp),
         colors = ButtonColors(
             containerColor = CustomOrange,
             contentColor = Color.White,
