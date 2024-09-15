@@ -1,5 +1,6 @@
 package com.samuelokello.dogdom.navigation
 
+import ArticleScreen
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
@@ -13,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.samuelokello.dogdom.ui.NotificationScreen
 import com.samuelokello.dogdom.ui.ProfileScreen
-import com.samuelokello.dogdom.ui.article.ArticleScreen
 import com.samuelokello.dogdom.ui.article.ArticleViewModel
 import com.samuelokello.dogdom.ui.auth.LoginScreen
 import com.samuelokello.dogdom.ui.circle.CircleScreen
