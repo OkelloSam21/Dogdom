@@ -1,6 +1,5 @@
 package com.samuelokello.dogdom.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -59,7 +58,6 @@ fun HomeScreen(
     onPostClick: (postId: Int) -> Unit,
     onBottomNavItemClick:(DogdomScreen) -> Unit,
     showBottomNavigation: Boolean,
-    onTabChanged: (HomeTab) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     BottomNavigationBar(
@@ -68,7 +66,9 @@ fun HomeScreen(
     ){
         HomeScreenContent(
             state = state,
-            onTabChanged = onTabChanged,
+            onTabChanged = { tab ->
+                viewModel.onAction(HomeAction.OnTabChanged(tab))
+            },
             onPostClick = onPostClick
         )
     }
@@ -113,7 +113,6 @@ fun HomeScreenContent(
                         Tab(
                             selected = state.currentTab == tab,
                             onClick = {
-                                Log.d("Home Screen", "Tab selected: ${tab.name}")
                                 onTabChanged(tab)
                             },
                             text = {
@@ -124,7 +123,7 @@ fun HomeScreenContent(
                                     ),
                                     fontWeight = if (state.currentTab == tab) FontWeight.Bold else FontWeight.Medium,
                                     fontFamily = FontFamily.SansSerif,
-                                    fontSize = 18.sp
+                                    fontSize = 16.sp
                                 )
                             }
                         )
