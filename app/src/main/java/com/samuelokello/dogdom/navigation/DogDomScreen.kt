@@ -12,14 +12,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.samuelokello.dogdom.DogdomContainer
 import com.samuelokello.dogdom.ui.NotificationScreen
 import com.samuelokello.dogdom.ui.ProfileScreen
-import com.samuelokello.dogdom.ui.article.ArticleViewModel
 import com.samuelokello.dogdom.ui.auth.LoginScreen
 import com.samuelokello.dogdom.ui.circle.CircleScreen
-import com.samuelokello.dogdom.ui.home.HomeAction
 import com.samuelokello.dogdom.ui.home.HomeScreen
-import com.samuelokello.dogdom.ui.home.HomeViewModel
 import com.samuelokello.dogdom.ui.message.MessageScreen
 import com.samuelokello.dogdom.ui.post.CreatePostScreen
 import com.samuelokello.dogdom.ui.release.ReleaseScreen
@@ -39,22 +37,21 @@ enum class Screen {
 }
 
 sealed class DogdomScreen(val route: String) {
-    object Login : DogdomScreen(Screen.Login.name)
-    object Home : DogdomScreen(Screen.Home.name)
-    object Circle : DogdomScreen(Screen.Circle.name)
-    object Release : DogdomScreen(Screen.Release.name)
-    object Profile : DogdomScreen(Screen.Profile.name)
-    object Message : DogdomScreen(Screen.Message.name)
-    object Search : DogdomScreen(Screen.Search.name)
-    object Notifications : DogdomScreen(Screen.Notifications.name)
-    object CreatePost : DogdomScreen(Screen.CreatePost.name)
-    object Article : DogdomScreen(Screen.Article.name)
+    data object Login : DogdomScreen(Screen.Login.name)
+    data object Home : DogdomScreen(Screen.Home.name)
+    data object Circle : DogdomScreen(Screen.Circle.name)
+    data object Release : DogdomScreen(Screen.Release.name)
+    data object Profile : DogdomScreen(Screen.Profile.name)
+    data object Message : DogdomScreen(Screen.Message.name)
+    data object Search : DogdomScreen(Screen.Search.name)
+    data object Notifications : DogdomScreen(Screen.Notifications.name)
+    data object CreatePost : DogdomScreen(Screen.CreatePost.name)
+    data object Article : DogdomScreen(Screen.Article.name)
 }
 
 @Composable
 fun DogdomScreen(
-    homeViewModel: HomeViewModel,
-    articleViewModel: ArticleViewModel,
+    dogdomContainer: DogdomContainer,
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
@@ -87,6 +84,7 @@ fun DogdomScreen(
             composable(route = DogdomScreen.Home.route) {
                 HomeScreen(
                     modifier = modifier,
+                    viewModelFactory = dogdomContainer.homeViewModelFactory,
                     onPostClick = {postId -> navController.navigate("${DogdomScreen.Article.route}/$postId") },
                     showBottomNavigation = showBottomBar,
                     onBottomNavItemClick = { navController.navigate(it.route){ launchSingleTop = true} },
@@ -152,7 +150,7 @@ fun DogdomScreen(
                 ArticleScreen(
                     modifier = Modifier.padding(innerPadding),
                     postId = postId,
-                    viewModel = articleViewModel,
+                    viewModelFactory = dogdomContainer.articleViewModelFactory,
                     onBackClick = {navController.popBackStack(DogdomScreen.Home.route,inclusive = false)}
                 )
             }

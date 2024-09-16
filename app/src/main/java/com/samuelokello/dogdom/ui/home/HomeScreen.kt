@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.data.DataSource
 import com.samuelokello.dogdom.model.Feature
@@ -54,11 +55,12 @@ enum class HomeTab {
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    viewModel: HomeViewModel = HomeViewModel(DataSource),
+    viewModelFactory: HomeViewModelFactory,
     onPostClick: (postId: Int) -> Unit,
     onBottomNavItemClick:(DogdomScreen) -> Unit,
     showBottomNavigation: Boolean,
 ) {
+    val viewModel: HomeViewModel = viewModel(factory = viewModelFactory)
     val state by viewModel.state.collectAsStateWithLifecycle()
     BottomNavigationBar(
         showBottomBar = showBottomNavigation,

@@ -46,10 +46,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.model.Comment
 import com.samuelokello.dogdom.model.Post
 import com.samuelokello.dogdom.ui.article.ArticleViewModel
+import com.samuelokello.dogdom.ui.article.ArticleViewModelFactory
 import com.samuelokello.dogdom.ui.shared.components.CustomButton
 import com.samuelokello.dogdom.ui.shared.components.DogDomButton
 import com.samuelokello.dogdom.ui.theme.CustomOrange
@@ -59,9 +61,10 @@ import com.samuelokello.dogdom.ui.theme.CustomOrange
 fun ArticleScreen(
     modifier: Modifier = Modifier,
     postId: Int,
-    viewModel: ArticleViewModel,
+    viewModelFactory: ArticleViewModelFactory,
     onBackClick: () -> Unit
 ) {
+    val viewModel: ArticleViewModel = viewModel(factory = viewModelFactory)
     val articleState by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(postId) {
