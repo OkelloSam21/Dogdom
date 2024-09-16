@@ -89,7 +89,6 @@ fun DogdomScreen(
                     modifier = modifier,
                     onPostClick = {postId -> navController.navigate("${DogdomScreen.Article.route}/$postId") },
                     showBottomNavigation = showBottomBar,
-                    onTabChanged = { homeViewModel.onAction(HomeAction.OnTabChanged(it)) },
                     onBottomNavItemClick = { navController.navigate(it.route){ launchSingleTop = true} },
                 )
             }
