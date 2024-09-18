@@ -5,6 +5,7 @@ import com.samuelokello.dogdom.model.Author
 import com.samuelokello.dogdom.model.Comment
 import com.samuelokello.dogdom.model.Feature
 import com.samuelokello.dogdom.model.Post
+import com.samuelokello.dogdom.ui.circle.CircleItem
 
 object DataSource {
     private val comments = listOf(
@@ -259,4 +260,31 @@ object DataSource {
     fun getPostById(postId: Int): Post {
         return posts.find { it.id == postId } ?: Post()
     }
+
+    val circleItems = listOf(
+        CircleItem(
+            cId = 1,
+            title = "Golden Retriever",
+            image = R.drawable.dog,
+            members = 10
+        ),
+        CircleItem(
+            cId = 2,
+            title = "Back of the head",
+            image = R.drawable.dog2,
+            members = 342
+        ),
+        CircleItem(
+            cId = 3,
+            title = "Adopt",
+            image = R.drawable.dog3,
+            members = 156
+        ),
+        CircleItem(
+            cId = 4,
+            title = "Labrador Pet",
+            image = R.drawable.dog4,
+            members = 96
+        ),
+    )
 }
