@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Dogdom</string>
     <string name="back_button">navigate back</string>
+    <string name="navigate_back">navigate back</string>
+    <string name="take_care_of_stray_quickactionimages_please_take_them_home">Take care of stray quickActionImages, please \ntake them home</string>
+    <string name="take_me_home">Take Me Home</string>
+    <string name="let_me">Let me</string>
     <string-array name="lorem_ipsum">
         <item>This is a post about dogs lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

@@ -280,12 +280,3 @@ private fun DiscoverScreenPrev() {
     )
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//private fun HomePrev() {
-//    HomeScreen(
-//        onPostClick = {},
-//        showBottomNavigation = true
-//    )
-//}
-
