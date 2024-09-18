@@ -1,6 +1,7 @@
 package com.samuelokello.dogdom.navigation
 
 import ArticleScreen
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
@@ -17,6 +18,7 @@ import com.samuelokello.dogdom.ui.NotificationScreen
 import com.samuelokello.dogdom.ui.ProfileScreen
 import com.samuelokello.dogdom.ui.auth.LoginScreen
 import com.samuelokello.dogdom.ui.circle.CircleScreen
+import com.samuelokello.dogdom.ui.circle.circle_details.CircleDetailScreen
 import com.samuelokello.dogdom.ui.home.HomeScreen
 import com.samuelokello.dogdom.ui.message.MessageScreen
 import com.samuelokello.dogdom.ui.post.CreatePostScreen
@@ -33,7 +35,8 @@ enum class Screen {
     Search,
     Notifications,
     CreatePost,
-    Article
+    Article,
+    CircleDetail
 }
 
 sealed class DogdomScreen(val route: String) {
@@ -47,6 +50,7 @@ sealed class DogdomScreen(val route: String) {
     data object Notifications : DogdomScreen(Screen.Notifications.name)
     data object CreatePost : DogdomScreen(Screen.CreatePost.name)
     data object Article : DogdomScreen(Screen.Article.name)
+    data object CircleDetail : DogdomScreen(Screen.CircleDetail.name)
 }
 
 @Composable
@@ -85,20 +89,23 @@ fun DogdomScreen(
                 HomeScreen(
                     modifier = modifier,
                     viewModelFactory = dogdomContainer.homeViewModelFactory,
-                    onPostClick = {postId -> navController.navigate("${DogdomScreen.Article.route}/$postId") },
+                    onPostClick = { postId -> navController.navigate("${DogdomScreen.Article.route}/$postId") },
                     showBottomNavigation = showBottomBar,
-                    onBottomNavItemClick = { navController.navigate(it.route){ launchSingleTop = true} },
+                    onBottomNavItemClick = {
+                        navController.navigate(it.route) {
+                            launchSingleTop = true
+                        }
+                    },
                 )
             }
             composable(route = DogdomScreen.Circle.route) {
                 CircleScreen(
                     modifier = Modifier
-                        .safeDrawingPadding()
-                        .padding(innerPadding)
+                        .fillMaxSize(),
+                    onCircleClick = { circleId -> navController.navigate("${DogdomScreen.CircleDetail.route}/${circleId}") }
                 )
             }
             composable(route = DogdomScreen.Release.route) {
-
                 ReleaseScreen(
                     modifier = Modifier
                         .safeDrawingPadding()
@@ -125,7 +132,6 @@ fun DogdomScreen(
                         .safeDrawingPadding()
                         .padding(innerPadding)
                 )
-
             }
             composable(route = DogdomScreen.Notifications.route) {
                 NotificationScreen(
@@ -133,7 +139,6 @@ fun DogdomScreen(
                         .safeDrawingPadding()
                         .padding(innerPadding)
                 )
-
             }
             composable(route = DogdomScreen.CreatePost.route) {
                 CreatePostScreen(
@@ -145,14 +150,30 @@ fun DogdomScreen(
             composable(
                 route = "${DogdomScreen.Article.route}/{postId}",
                 arguments = listOf(navArgument("postId") { type = NavType.IntType })
-                ) { backStackEntry ->
+            ) { backStackEntry ->
                 val postId = backStackEntry.arguments?.getInt("postId") ?: -1
                 ArticleScreen(
                     modifier = Modifier.padding(innerPadding),
                     postId = postId,
                     viewModelFactory = dogdomContainer.articleViewModelFactory,
-                    onBackClick = {navController.popBackStack(DogdomScreen.Home.route,inclusive = false)}
+                    onBackClick = {
+                        navController.popBackStack(
+                            DogdomScreen.Home.route,
+                            inclusive = false
+                        )
+                    }
                 )
+            }
+            composable(
+                route = "${DogdomScreen.CircleDetail.route}/{circleId}",
+                arguments = listOf(navArgument("circleId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                val circleId = backStackEntry.arguments?.getInt("circleId") ?: -1
+                CircleDetailScreen(
+                    id = circleId,
+                    modifier = Modifier.padding(innerPadding)
+                )
+
             }
         }
 
