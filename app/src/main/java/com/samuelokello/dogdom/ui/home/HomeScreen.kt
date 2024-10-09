@@ -40,8 +40,6 @@ import com.samuelokello.dogdom.R
 import com.samuelokello.dogdom.data.DataSource
 import com.samuelokello.dogdom.model.Feature
 import com.samuelokello.dogdom.model.Post
-import com.samuelokello.dogdom.navigation.DogdomScreen
-import com.samuelokello.dogdom.navigation.bottom_navigation.BottomNavigationBar
 import com.samuelokello.dogdom.ui.home.components.FeatureSection
 import com.samuelokello.dogdom.ui.home.components.PostCard
 import com.samuelokello.dogdom.ui.home.components.QuickActions
@@ -57,24 +55,16 @@ fun HomeScreen(
     modifier: Modifier,
     viewModelFactory: HomeViewModelFactory,
     onPostClick: (postId: Int) -> Unit,
-    onBottomNavItemClick:(DogdomScreen) -> Unit,
-    showBottomNavigation: Boolean,
 ) {
     val viewModel: HomeViewModel = viewModel(factory = viewModelFactory)
     val state by viewModel.state.collectAsStateWithLifecycle()
-    BottomNavigationBar(
-        showBottomBar = showBottomNavigation,
-        onItemClick = onBottomNavItemClick
-    ){
-        HomeScreenContent(
-            state = state,
-            onTabChanged = { tab ->
-                viewModel.onAction(HomeAction.OnTabChanged(tab))
-            },
-            onPostClick = onPostClick
-        )
-    }
-
+    HomeScreenContent(
+        state = state,
+        onTabChanged = { tab ->
+            viewModel.onAction(HomeAction.OnTabChanged(tab))
+        },
+        onPostClick = onPostClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
