@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -35,10 +36,10 @@ import com.samuelokello.dogdom.ui.shared.components.QuickActionCard
 @Composable
 fun CircleScreen(
     modifier: Modifier = Modifier,
-    onCircleClick: (Int) -> Unit = {}
+    onCircleClick: (Int) -> Unit
     ) {
     Column(
-        modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -71,7 +72,7 @@ fun CircleScreen(
 @Composable
 fun CircleContent(modifier: Modifier = Modifier, onCircleClick: (Int) -> Unit) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Column {
             DogdomSearchBar(
@@ -102,14 +103,17 @@ fun CircleContent(modifier: Modifier = Modifier, onCircleClick: (Int) -> Unit) {
         }
         Spacer(modifier.height(8.dp))
         Column {
-            LazyRow {
+            LazyRow(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 items(DataSource.circleItems) {
                     CircleItemComponent(
                         item = it,
                         modifier = modifier,
                         onClick = onCircleClick
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(32.dp))
                 }
             }
         }
@@ -142,5 +146,7 @@ fun CircleContent(modifier: Modifier = Modifier, onCircleClick: (Int) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun CirclePrev() {
-    CircleScreen()
+    CircleScreen(
+        onCircleClick = {}
+    )
 }

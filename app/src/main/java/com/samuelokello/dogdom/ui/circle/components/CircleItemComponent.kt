@@ -38,7 +38,10 @@ fun CircleItemComponent(
             contentScale = ContentScale.Crop
         )
         Spacer(modifier.height(8.dp))
-        Text(item.title, style = MaterialTheme.typography.labelSmall.copy(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)))
+        Text(
+            item.title,
+            style = MaterialTheme.typography.labelSmall
+                .copy(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)))
     }
 
 
